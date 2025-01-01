@@ -25,11 +25,11 @@ boolean newData = false;
 
 
 void setup() {
-  // Initialize Serial1 and wait for port to open
+  // Initialize Serial and wait for port to open
   // 38400 used to match default speed of B&T AT firmware
-  Serial1.begin(38400);
-  while (!Serial1) {
-    ;  // wait for Serial1 port to connect. Needed for native USB port only
+  Serial.begin(38400);
+  while (!Serial) {
+    ;  // wait for Serial port to connect. Needed for native USB port only
   }
   // Initialize the onboard WiFi and set channel plan to allow for 5GHz:
   WiFi.status();
@@ -43,7 +43,7 @@ void loop() {
       ATWS();
     }
     if (strcmp(receivedChars, "AT") == 0) {
-      Serial1.println("OK");
+      Serial.println("OK");
     }
     if (strcmp(receivedChars, "ATAT") == 0) {
       ATAT();
@@ -136,9 +136,9 @@ void recvWithStartEndMarkers() {
   char endMarker = '\r';
   char rc;
 
-  while (Serial1.available() > 0 && newData == false) {
-    rc = Serial1.read();
-    Serial1.print(rc);
+  while (Serial.available() > 0 && newData == false) {
+    rc = Serial.read();
+    Serial.print(rc);
     if (recvInProgress == true) {
       if (rc != endMarker) {
         receivedChars[ndx] = rc;
@@ -173,43 +173,43 @@ static int8_t ATWS() {
 }
 
 void ATAT() {
-  Serial1.println("");
-  Serial1.println("                ________");
-  Serial1.println("            _.-'::'\\____`.");
-  Serial1.println("          ,'::::'  |,------.");
-  Serial1.println("         /::::'    ||`-..___;");
-  Serial1.println("        ::::'      ||   / ___\\");
-  Serial1.println("        |::       _||  [ [___]]");
-  Serial1.println("        |:   __,-'  `-._\\__._/");
-  Serial1.println("        :_,-\\  \\| |,-'_,. . `.");
-  Serial1.println("        | \\  \\  | |.-'_,-\\ \\   ~");
-  Serial1.println("        | |`._`-| |,-|    \\ \\    ~");
-  Serial1.println("        |_|`----| ||_|     \\ \\     ~              _");
-  Serial1.println("        [_]     |_|[_]     [[_]      ~        __(  )");
-  Serial1.println("        | |    [[_]| |     `| |        ~    _(   )   )");
-  Serial1.println("        |_|    `| ||_|      |_|          ~ (    ) ) ))");
-  Serial1.println("        [_]     | |[_]      [_]          (_       _))");
-  Serial1.println("       /___\\    [ ] __\\    /___\\           (( \\   ) )");
-  Serial1.println("jrei          /___\\                        (     ) )");
-  Serial1.println("                                             (  #  )");
-  Serial1.println("");
+  Serial.println("");
+  Serial.println("                ________");
+  Serial.println("            _.-'::'\\____`.");
+  Serial.println("          ,'::::'  |,------.");
+  Serial.println("         /::::'    ||`-..___;");
+  Serial.println("        ::::'      ||   / ___\\");
+  Serial.println("        |::       _||  [ [___]]");
+  Serial.println("        |:   __,-'  `-._\\__._/");
+  Serial.println("        :_,-\\  \\| |,-'_,. . `.");
+  Serial.println("        | \\  \\  | |.-'_,-\\ \\   ~");
+  Serial.println("        | |`._`-| |,-|    \\ \\    ~");
+  Serial.println("        |_|`----| ||_|     \\ \\     ~              _");
+  Serial.println("        [_]     |_|[_]     [[_]      ~        __(  )");
+  Serial.println("        | |    [[_]| |     `| |        ~    _(   )   )");
+  Serial.println("        |_|    `| ||_|      |_|          ~ (    ) ) ))");
+  Serial.println("        [_]     | |[_]      [_]          (_       _))");
+  Serial.println("       /___\\    [ ] __\\    /___\\           (( \\   ) )");
+  Serial.println("jrei          /___\\                        (     ) )");
+  Serial.println("                                             (  #  )");
+  Serial.println("");
 }
 
 void printNetworkList() {
   for (int network = 0; network < _networkCount; network++) {
-    Serial1.print("AP : ");
-    Serial1.print(network + 1);
-    Serial1.print(",");
-    Serial1.print(_networkSsid[network]);
-    Serial1.print(",");
-    Serial1.print(_networkChannel[network]);
-    Serial1.print(",");
-    Serial1.print(getEncryptionTypeEx(_networkEncr[network]));
-    Serial1.print(",");
-    Serial1.print(_networkRssi[network]);
-    Serial1.print(",");
-    Serial1.print(_networkMac[network]);
-    Serial1.println("");
+    Serial.print("AP : ");
+    Serial.print(network + 1);
+    Serial.print(",");
+    Serial.print(_networkSsid[network]);
+    Serial.print(",");
+    Serial.print(_networkChannel[network]);
+    Serial.print(",");
+    Serial.print(getEncryptionTypeEx(_networkEncr[network]));
+    Serial.print(",");
+    Serial.print(_networkRssi[network]);
+    Serial.print(",");
+    Serial.print(_networkMac[network]);
+    Serial.println("");
   }
-  Serial1.println("[ATWS]");
+  Serial.println("[ATWS]");
 }
